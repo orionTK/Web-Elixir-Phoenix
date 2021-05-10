@@ -1,0 +1,32 @@
+<h1>Listing Posts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <%# <th>Body</th> %>
+      <th>Comments</th>
+      <th>Time created</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for {post, count} <- @posts do %>
+    <tr>
+      <td><%= post.title %></td>
+      <td><%= count %></td>
+      <td><%= post.inserted_at %></td>
+
+      <td>
+        <%= link "Show", to: Routes.post_path(@conn, :show, post), class: "btn btn-default btn-xs"%>
+        <%= link "Edit", to: Routes.post_path(@conn, :edit, post), class: "btn btn-default btn-xs"%>
+        <%= link "Delete", to: Routes.post_path(@conn, :delete, post), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Post", to: Routes.post_path(@conn, :new)  %></span> |
+<span><%= link "Back home", to: Routes.page_path(@conn, :index)  %></span>

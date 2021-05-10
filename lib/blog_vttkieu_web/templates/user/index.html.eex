@@ -1,0 +1,32 @@
+<h1>User mananger</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User Name</th>
+      <th>Full Name</th>
+      <th>Number Posts Created</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for  {user, count}<- @user do %>
+    <tr>
+      <td><%= user.username %></td>
+      <td><%= user.fullname %></td>
+      <td><%= count %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.user_path(@conn, :show, user), class: "btn btn-default btn-xs" %> </span>
+        <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New User", to: Routes.user_path(@conn, :new)  %></span> |
+<span><%= link "Back Home", to: Routes.page_path(@conn, :index)  %></span>
+
