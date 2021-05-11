@@ -39,9 +39,9 @@ defmodule BlogVttkieuWeb.UserController do
     end
 
     def create(conn, %{"user" => user_params}) do
-      user = BlogVttkieu.Account.current_user(conn)
+      user_current = BlogVttkieu.Account.current_user(conn)
 
-      case Blog.create_user_manager(user, user_params) do
+      case Blog.create_user_manager(user_current, user_params) do
         {:ok, user} ->
           conn
           |> put_flash(:info, "User created successfully.")
@@ -80,15 +80,23 @@ defmodule BlogVttkieuWeb.UserController do
 
     def update(conn, %{"id" => id, "user" => user_params}) do
       user = Blog.get_user!(id)
+      user_current = BlogVttkieu.Account.current_user(conn)
+      query_modifi = from c in User, where: c.modifier_id > 0
+      check_modifi = Repo.exists?(query_modifi)
 
-      case Blog.update_user(user, user_params) do
-        {:ok, user} ->
-          conn
-          |> put_flash(:info, "User updated successfully.")
-          |> redirect(to: Routes.user_path(conn, :index))
+      if check_modifi == true do
+        put_flash(conn, :error, "User can only be edited once ")
+        |> redirect(to: Routes.user_path(conn, :show, user))
+      else
+        case Blog.update_user(user_current,user, user_params) do
+          {:ok, user} ->
+            conn
+            |> put_flash(:info, "User updated successfully.")
+            |> redirect(to: Routes.user_path(conn, :index))
 
-        {:error, %Ecto.Changeset{} = changeset} ->
-          render(conn, "edit.html", user: user, changeset: changeset)
+          {:error, %Ecto.Changeset{} = changeset} ->
+            render(conn, "edit.html", user: user, changeset: changeset)
+        end
       end
     end
 
@@ -111,7 +119,7 @@ defmodule BlogVttkieuWeb.UserController do
         check_comment = Repo.exists?(query_comment)
 
         if (check_comment == true or check_post == true) do
-            put_flash(conn, :error, "User is refering another row")
+            put_flash(conn, :error, "User is referencing another rows")
             |> redirect(to: Routes.user_path(conn, :index))
         else
           {:ok, _user} = Blog.delete_user(user)

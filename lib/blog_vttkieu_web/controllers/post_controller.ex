@@ -1,6 +1,6 @@
 defmodule BlogVttkieuWeb.PostController do
   use BlogVttkieuWeb, :controller
-
+  import Ecto.Query
   alias BlogVttkieu.Blog
   alias BlogVttkieu.Blog.Post
   alias BlogVttkieu.Blog.Comment
@@ -58,15 +58,23 @@ defmodule BlogVttkieuWeb.PostController do
   def update(conn, %{"id" => id, "post" => post_params}) do
     post = Blog.get_post!(id)
     user = BlogVttkieu.Account.current_user(conn)
-    case Blog.update_post(user,post, post_params) do
-      {:ok, post} ->
-        conn
-        |> put_flash(:info, "Post updated successfully.")
-        |> redirect(to: Routes.post_path(conn, :show, post))
+    query_modifi = from c in Post, where: c.modifier_id > 0
+    check_modifi = Repo.exists?(query_modifi)
+    if check_modifi == true do
+      put_flash(conn, :error, "Post can only be edited once ")
+      |> redirect(to: Routes.post_path(conn, :show, post))
+    else
+      case Blog.update_post(user,post, post_params) do
+        {:ok, post} ->
+          conn
+          |> put_flash(:info, "Post updated successfully.")
+          |> redirect(to: Routes.post_path(conn, :show, post))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", post: post, changeset: changeset)
+        {:error, %Ecto.Changeset{} = changeset} ->
+          render(conn, "edit.html", post: post, changeset: changeset)
+      end
     end
+
   end
 
   def delete(conn, %{"id" => id}) do

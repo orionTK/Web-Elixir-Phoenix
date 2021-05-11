@@ -52,4 +52,11 @@ defmodule BlogVttkieu.Blog.User do
       left_join: c in assoc(p, :creator_posts),
       select: {p, count(c.id)}
   end
+
+  # def count_comments(query) do
+  #   from p in query,
+  #     group_by: p.id,
+  #     left_join: c in assoc(p, :posts),
+  #     select: {p, count(c.id)}
+  # end
 end

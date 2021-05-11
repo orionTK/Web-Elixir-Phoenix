@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :blog_vttkieu, BlogVttkieu.Repo,
   username: "root",
-  password: "123456",
+  password: "2421999",
   database: "blog",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,

@@ -5,15 +5,15 @@
     </div>
   <% end %>
 
-  <%= label f, :username %>
-  <%= text_input f, :username %>
-  <%= error_tag f, :username%>
-
+ <strong>User Name:</strong>
+ 
+  <%= @user.username %>
+  <hr>
+  
   <%= label f, :name %>
   <%= text_input f, :fullname %>
   <%= error_tag f, :fullname %>
-
-
+  
   <div>
     <%= submit "Save" %>
   </div>

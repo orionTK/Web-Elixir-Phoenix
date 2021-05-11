@@ -48,8 +48,9 @@ defmodule BlogVttkieu.MixProject do
       {:guardian, "~> 2.1"},
       # {:wallaby, "~> 0.23.0", [runtime: false, only: :test]},
       {:pow, "~> 1.0"},
-      {:comeonin, "~> 4.0.1"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:comeonin, "~> 4.0.1"}
+      # ,
+      # {:bcrypt_elixir, "~> 1.0"}
 
 
     ]

@@ -221,6 +221,8 @@ end
     |> Comment.changeset(attrs)
     |> Repo.update()
 
+
+
   end
 
   @doc """
@@ -284,9 +286,16 @@ end
 
   end
 
-  def update_user(%User{} = user, attrs) do
+  def update_user(%User{} = user_current, %User{} = user, attrs) do
+    # user
+    # |> User.changeset(attrs)
+    # |> Repo.update()
+
     user
+    |> Repo.preload(:modifier_user)
     |> User.changeset(attrs)
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:modifier_user, user_current) #:))) lay bien tu belong_as
     |> Repo.update()
   end
 
@@ -297,4 +306,5 @@ end
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
 end

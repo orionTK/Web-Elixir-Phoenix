@@ -65,9 +65,4 @@ defmodule BlogVttkieuWeb.SessionController do
         {:error, :unauthorized}
     end
   end
-
-  # defp authenticate(session_params) do
-  #   user = Repo.get_by(User, username: String.downcase(session_params["username"]))
-  #   user && Comeonin.Bcrypt.checkpw(session_params["password"], user.password) && user
-  # end
   end

@@ -1,12 +1,8 @@
 # BlogVttkieu
-
-<h1>I used<h1>
-
-* Elixir
-* Phoenix framework
-* Mysql
-* IDE: Visual Studio Code 
-
+I use
+* Elixir v1.11.14 - erlang OTP 21
+* Phoenix framework v1.5.8
+* Mysql 
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
