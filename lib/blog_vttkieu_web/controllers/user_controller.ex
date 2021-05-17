@@ -9,27 +9,11 @@ defmodule BlogVttkieuWeb.UserController do
     plug :authenticate when action in [:index, :new, :create, :update, :delete]
     alias BlogVttkieu.Repo
 
-    # plug :check_auth when action in [:new, :create, :edit, :update, :delete] #loai bo chuoi rong
 
-      # defp check_auth(conn, _args) do
-      #     if user_id = get_session(conn, :current_user_id) do
-      #       current_id = Accounts.get_user!(user_id)
-
-      #       conn
-      #       |>assign(:current_user, current_user)
-      #     else
-      #       conn
-      #       |> put_flash(:error, "You need to be signed in to access that page.")
-      #       |>redirect(to: post_path(conn, "index"))
-      #       |>halt()
-      #     end
-      # end
 
     def index(conn, _params) do
-      user = User
-      |> User.count_posts
-      |> Repo.all #lay ra tat ca cac field of Post trong db
-      render(conn, "index.html", user: user)
+      page = Blog.list_users(_params) |> Repo.paginate(_params)
+      render(conn, "index.html", user: page.entries, page: page)
     end
 
     def new(conn, _params) do
@@ -140,18 +124,5 @@ defmodule BlogVttkieuWeb.UserController do
         |> halt()
       end
     end
-    # def add_comment(conn, %{"post_id" => post_id, "comment" => comment_params}) do
-    #   post = Blog.get_post!(post_id)
 
-    #   case Blog.create_comment(post, comment_params) do
-    #     {:ok, _comment} ->
-    #       conn
-    #       |> put_flash(:info, "Comment created successfully.")
-    #       |> redirect(to: Routes.post_path(conn, :show, post))
-    #     {:error, _changeset} ->
-    #       conn
-    #       |> put_flash(:error, "Issue creating comment.")
-    #       |> redirect(to: Routes.post_path(conn, :show, post))
-    #   end
-    # end
   end

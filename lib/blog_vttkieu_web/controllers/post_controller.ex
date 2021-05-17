@@ -5,14 +5,25 @@ defmodule BlogVttkieuWeb.PostController do
   alias BlogVttkieu.Blog.Post
   alias BlogVttkieu.Blog.Comment
   alias BlogVttkieu.Repo
+  alias BlogVttkieu.Paginator
 
   plug :authenticate when action in [:index, :new, :create, :update, :delete]
 
   def index(conn, _params) do
-     posts = Post
-    |> Post.count_comments
-    |> Repo.all #lay ra tat ca cac field of Post trong db
-    render(conn, "index.html", posts: posts)
+
+    # cach 1
+    # paginator =  Blog.list_posts(_params)
+    # |> Paginator.new(_params)
+
+    # render(conn, "index.html",
+    #   posts: paginator.entries,
+    #   page_number: paginator.page_number,
+    #   page_size: paginator.page_size,
+    #   total_pages: paginator.total_pages)
+
+    page = Blog.list_posts(_params) |> Repo.paginate(_params)
+    render(conn, "index.html", posts: page.entries, page: page)
+
   end
 
   def new(conn, _params) do
