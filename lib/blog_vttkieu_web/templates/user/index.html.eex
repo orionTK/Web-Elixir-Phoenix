@@ -1,3 +1,9 @@
+
+      <%= form_for @conn, Routes.user_path(@conn, :index), [method: :get, class: "pull-right"], fn f -> %>
+      <%= search_input f, :query%>
+      <%= submit "Search" , class: "Search btn btn-primary btn-xs"%>
+    <% end %>
+
 <h1>User mananger</h1>
 
 <table>
@@ -26,6 +32,7 @@
 <% end %>
   </tbody>
 </table>
+<%= pagination_links @page, next: "Next", previous: "Prev" %>
 
 <span><%= link "New User", to: Routes.user_path(@conn, :new)  %></span> |
 <span><%= link "Back Home", to: Routes.page_path(@conn, :index)  %></span>
