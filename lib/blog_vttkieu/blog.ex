@@ -9,6 +9,7 @@ defmodule BlogVttkieu.Blog do
   alias BlogVttkieu.Blog.Post
   alias BlogVttkieu.Blog.Comment
   alias BlogVttkieu.Blog.User
+  alias BlogVttkieu.Paginator
   @doc """
   Returns the list of posts.
 
@@ -18,8 +19,16 @@ defmodule BlogVttkieu.Blog do
       [%Post{}, ...]
 
   """
-  def list_posts do
-    Repo.all(Post)
+  # def list_posts do
+  #   Repo.all(Post)
+  # end
+
+  def list_posts(params) do
+    search_term = get_in(params, ["query"]) #get in lay cac query cua params
+    Post
+    |> Post.count_comments
+    |> Post.search(search_term)
+
   end
 
   @doc """
@@ -43,6 +52,7 @@ defmodule BlogVttkieu.Blog do
   |> Repo.preload(:comments)
 
 end
+
 
   @doc """
   Creates a post.
@@ -258,8 +268,13 @@ end
 
 
 
-  def list_users do
-    Repo.all(User)
+  def list_users(params) do
+    # Repo.all(User)
+    search_term = get_in(params, ["query"]) #get in lay cac query cua params
+      User
+    |> User.count_posts
+    |> User.search(search_term)
+
   end
 
   def get_user!(id) do
