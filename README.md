@@ -3,6 +3,13 @@ I use
 * Elixir v1.11.14 - erlang OTP 21
 * Phoenix framework v1.5.8
 * Mysql 
+
+Feature:
+ * Authentication sing in, Sign Up
+ * CRUD Post, User
+ * Add Comment
+ * Paging, sort and sreach
+ 
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
