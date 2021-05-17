@@ -10,6 +10,8 @@ use Mix.Config
 config :blog_vttkieu,
   ecto_repos: [BlogVttkieu.Repo]
 
+
+
 # Configures the endpoint
 config :blog_vttkieu, BlogVttkieuWeb.Endpoint,
   url: [host: "localhost"],
@@ -25,6 +27,10 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :scrivener_html,
+  routes_helper: BlogVttkieu.Router.Helpers,
+  view_style: :bootstrap
 
 # config :blog_vttkieu, :pow,
 #   user: BlogVttkieu.Blog.User
