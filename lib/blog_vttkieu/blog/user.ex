@@ -53,10 +53,11 @@ defmodule BlogVttkieu.Blog.User do
       select: {p, count(c.id)}
   end
 
-  # def count_comments(query) do
-  #   from p in query,
-  #     group_by: p.id,
-  #     left_join: c in assoc(p, :posts),
-  #     select: {p, count(c.id)}
-  # end
+  def search(query, search_term) do
+    wildcard_search = "%#{search_term}%"
+
+    from user in query,
+    where: like(user.username, ^wildcard_search),
+    order_by: [asc: user.username]
+  end
 end
